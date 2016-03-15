@@ -1,0 +1,43 @@
+﻿<html lang="zh-cn">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/static/jscss/base.css" type="text/css" />
+		<style>
+			form {
+				margin: 0;
+			}
+			textarea {
+				display: block;
+			}
+		</style>
+		<link rel="stylesheet" href="/static/kindeditor/themes/default/default.css" />
+		<script charset="utf-8" src="/static/kindeditor/kindeditor-min.js"></script>
+		<script charset="utf-8" src="/static/kindeditor/lang/zh_CN.js"></script>
+		<script>
+			var editor;
+			KindEditor.ready(function(K) {
+				editor = K.create('textarea[name="content"]', {
+					allowFileManager : true
+				});
+
+			});
+		</script>
+</head>
+<body>
+<div class="content">
+<div class="head">
+</div>
+<div class="con">
+	    <form>
+		<li>栏目:
+		<select>
+		  <option>栏目一</option>
+		  <option>栏目一</option>
+		  <option>栏目一</option>
+		</select>
+		</li>
+		</form>
+</div>
+</div>
+</body>
+</html>

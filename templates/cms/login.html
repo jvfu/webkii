@@ -1,0 +1,40 @@
+﻿<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<!--
+%if msg.get_login().get("name") is not None:
+<meta http-equiv="refresh" content="10">
+<meta http-equiv="refresh" content="0;url=/admin/login"> 
+%endif
+-->
+<link type="text/css" href="/static/css/cms.css"  rel="stylesheet"/>
+</head>
+<body>
+<div class="header">
+<a href="/" class="logo"><img width="47" height="35" src="/static/image/logo.gif"/>m72s</a>
+
+<span class="nav">
+<span class="nav-next">导航</span>
+<span class="nav-icon"></span>
+</span>
+</div>
+<div class="main">
+<div class="login">
+    <div>
+	<h2>管理平台</h2><br/>
+        <form action="" method="POST">
+            <p>用户: <input type="text" name="username" /></p><br/>
+            <p>密码: <input type="password" name="password" /></p><br/>
+            <input type="submit" value="登   陸" id="submit">
+        </form>
+  </div>
+</div>
+</div>
+<script>  
+if(top.location != location){  
+    top.location.href= location.href;  
+}  
+</script> 
+
+</body>
+</html>

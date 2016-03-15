@@ -1,0 +1,132 @@
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<link type="text/css" rel="stylesheet" href="/static/css/main.css">
+<link type="text/css" rel="stylesheet" href="/static/css/layer.css">
+<link type="text/css" rel="stylesheet" href="/static/css/nprogress.css">
+<script charset="utf-8" src="/static/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="/static/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="main">
+
+<form id="Fma">
+%if page.type == "menu":
+      <div class="head">
+	  <h5><a>添加导航</a></h5>
+	  <h6 class="head-nav">
+	  
+      </h6>
+
+      </div>
+
+	  <h6 class="head-navs"><div>上级菜单：</div>|<div>
+	  <select id="parentid" name="parentid">
+	  <option value="0">默认</option>
+     </select>
+	  </div>
+	  </h6>
+	  <h6 class="head-navs"><div>是否新窗口打开：</div>|<div><input name="bank"  value="1" id="bank" type="radio"><label for="bank">是</label><input name="bank" value="0" id="bank" type="radio" checked="checked" ><label for="bank">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>是否显示：</div>|<div><input name="display"  checked="checked" value="1"  type="radio"><label for="display">是</label><input name="display" value="0"  type="radio"><label for="display">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>栏目名称：</div>|<div><input size="80%" name="name" id="name"/></div></h6>
+	  <h6 class="head-navs"><div>链接地址：</div>|<div><input size="80%" name="link" id="link"/></div></h6> 
+	   <h6 class="head-nav"><textarea id="content" autocomplete="off" name="content" style="width:100%;height:400px;visibility:hidden;display: block;"></textarea></h6>
+   <input type="hidden" value="${page.type}" name="typec" id="typec"/>
+   <input type="hidden" value="${page.data.id}" name="id" id="id"/>
+	  <h6 class="head-navs" style="text-align:center;"><input type="button" value="提交" id="upd"/></h6>
+
+%elif page.type == "nav":
+      <div class="head">
+	  <h5><a>添加导航</a></h5>
+	  <h6 class="head-nav">
+	  
+      </h6>
+
+      </div>
+	  <h6 class="head-navs"><div>上级菜单：</div>|<div>
+	  <select id="fid" name="fid">
+	  <option value="0">默认</option>
+	  </select>
+	  </div></h6>
+	  <h6 class="head-navs"><div>是否新窗口打开：</div>|<div><input name="bank"  value="1" id="bank" type="radio"><label for="bank">是</label><input name="bank" value="0" id="bank" type="radio" checked="checked" ><label for="bank">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>是否显示：</div>|<div><input name="display"  checked="checked" value="1"  type="radio"><label for="display">是</label><input name="display" value="0"  type="radio"><label for="display">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>栏目名称：</div>|<div><input size="80%" name="nav_name" id="nav_name" value="${page.data.nav_name}"/></div></h6>
+	  <h6 class="head-navs"><div>链接地址：</div>|<div><input size="80%" name="link" id="link" value="${page.data.link}"/></div></h6> 	  
+      <h6 class="head-nav"><textarea id="content" autocomplete="off" name="content" style="width:100%;height:400px;visibility:hidden;display: block;"></textarea></h6>
+   <input type="hidden" value="${page.type}" name="typec" id="typec"/>
+   <input type="hidden" value="${page.data.id}" name="id" id="id"/>
+	  <h6 class="head-navs" style="text-align:center;"><input type="button" value="提交" id="upd"/></h6>
+%elif page.type == "menulist":
+   <div class="head">
+   <h5><a>添加文章</a></h5>
+   </div>
+
+   <h6 class="head-nav"></h6>
+   <h6 class="head-navs"><div>文章标题：</div>|<div><input type="text" size="80%" value="${page.data.title}" name="title"/></div></h6>
+   <h6 class="head-navs"><div>关键单词：</div>|<div><input type="text" size="80%" value="${page.data.description}" name="keyword"/></div></h6>
+   <h6 class="head-navs"><div>图片上传：</div>|<div><input type="file" value="${page.data.description}" style="border: 1px solid #CCC;" size="80%" name="url" id="url"/></div></h6>
+   <h6 class="head-navs"><div>链接地址：</div>|<div><input type="text" size="80%" name="url" value="${page.data.url}"/></div></h6>
+   <h6 class="head-nav"><textarea id="content" name="content"  style="width:100%;height:500px;overflow:hidden;display: block;">
+   ${page.data.content}
+   </textarea></h6>
+   <input type="hidden" value="${page.type}" name="typec" id="typec"/>
+   <input type="hidden" value="${page.data.id}" name="id" id="id"/>
+   <input type="hidden" value="${page.data.writer}" name="writer"/>
+   <h6 class="head-navs" style="text-align:right;"><input type="button" width="300" value="提交" id="upd"/></h6>
+
+%elif page.type == "category":
+      <div class="head">
+	  <h5><a>添加分类</a></h5>
+	  <h6 class="head-nav">
+	  
+      </h6>
+
+      </div>
+
+	  <h6 class="head-navs"><div>上级菜单：</div>|<div>
+	  <select id="parentid" name="parentid">
+	  <option value="0">默认</option>
+      </select>
+	  </div>
+	  </h6>
+	  <h6 class="head-navs"><div>是否新窗口打开：</div>|<div><input name="is_show"  value="1" id="bank" type="radio"><label for="bank">是</label><input name="bank" value="0" id="bank" type="radio" checked="checked" ><label for="bank">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>是否显示：</div>|<div><input name="display"  checked="checked" value="1"  type="radio"><label for="display">是</label><input name="display" value="0"  type="radio"><label for="display">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>栏目名称：</div>|<div><input size="80%" name="name" id="name"/></div></h6>
+	  <h6 class="head-navs"><div>链接地址：</div>|<div><input size="80%" name="link" id="link"/></div></h6> 
+	   <h6 class="head-nav"><textarea id="content" autocomplete="off" name="content" style="width:100%;height:400px;visibility:hidden;display: block;"></textarea></h6>
+   <input type="hidden" value="${page.type}" name="typec" id="typec"/>
+   <input type="hidden" value="${page.data.id}" name="id" id="id"/>
+	  <h6 class="head-navs" style="text-align:center;"><input type="button" value="提交" id="upd"/></h6>
+
+%endif
+</form>
+
+</div>
+
+<div class="footer"></div>
+<script>
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create($("#content"), {
+	    filterMode:false,
+		uploadJson : '/upload',
+        fileManagerJson : '/upload',
+        allowFileManager : true,
+		autoHeightMode:true,
+		afterCreate:function(){
+		    this.loadPlugin('autoheight');
+		}
+	});
+});
+</script>	
+<script data-main="/static/js/children" src="/static/js/require.js"></script>
+</body>
+</html>

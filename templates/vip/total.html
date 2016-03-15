@@ -1,0 +1,79 @@
+﻿<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>网站配置</title>
+		<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+	</head>
+	<body>
+   <script type="text/javascript">
+$(function () {                                                                
+    $('#container').highcharts({                                           
+        chart: {                                                           
+            type: 'column'                                                    
+        },                                                                 
+        title: {                                                           
+            text: '平台历史数据统计'                    
+        },                                                                 
+        subtitle: {                                                        
+            text: '来源: m72s.com'                                  
+        },                                                                 
+        xAxis: {                                                           
+            categories: ['一月', '二月', '三月', '四月', '五月', '六月','七月','八月','九月','十月','十一月','十二月'],
+            title: {                                                       
+                text: null                                                 
+            }   
+			
+        },                                                                 
+        yAxis: {                                                           
+            min: 0,                                                        
+            title: {                                                       
+                text: '增长数',                             
+                align: 'high'                                              
+            },                                                             
+            labels: {                                                      
+                overflow: 'justify'                                        
+            }                                                              
+        },                                                                 
+        tooltip: {                                                         
+            valueSuffix: ''                                       
+        },                                                                 
+        plotOptions: {                                                     
+            bar: {                                                         
+                dataLabels: {                                              
+                    enabled: true                                          
+                }                                                          
+            }                                                              
+        },                                                                 
+        legend: {                                                          
+            layout: 'vertical',                                            
+            align: 'right',                                                
+            verticalAlign: 'top',                                          
+            x: -40,                                                        
+            y: 100,                                                        
+            floating: true,                                                
+            borderWidth: 1,                                                
+            backgroundColor: '#FFFFFF',                                    
+            shadow: true                                                   
+        },                                                                 
+        credits: {                                                         
+            enabled: false                                                 
+        },                                                                 
+        series: [{                                                         
+            name: '点击率',                                             
+            data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]                                    
+        }, {                                                               
+            name: '注册量',                                             
+            data: [133, 156, 947, 408, 6]                                  
+        }, {                                                               
+            name: '投资量',                                             
+            data: [973, 914, 4054, 732, 34]                                
+        }
+		
+		]                                                                 
+    });                                                                    
+});       
+   </script>
+    <script src="/static/js/Highcharts/highcharts.js"></script>
+    <div id="container" style=""></div>
+	</body>
+</html>

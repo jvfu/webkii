@@ -1,0 +1,609 @@
+<html lang="zh-cn" defer>
+<head>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<link type="text/css" rel="stylesheet" href="/static/css/main.css" defer>
+<link type="text/css" rel="stylesheet" href="/static/css/layer.css">
+<link type="text/css" rel="stylesheet" href="/static/css/nprogress.css">
+<script charset="utf-8" src="/static/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="/static/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div class="main">
+
+
+<div class="right" >
+<div class="lft">
+  <span class="menu-child">
+%for n in range(0,len(page.list)):
+    %if page.list[n].status > 0 and page.list[n].parentid > 0:
+    <a data-href="${page.list[n].action}" data-num="${page.list[n].id}" data-type="${page.list[n].typec}" >${page.list[n].name}</a>
+	%endif
+%endfor
+  </span>
+</div>
+<div class="rgt">
+%if page.type == "menu":
+
+<div class="tab" >
+      <div class="head">
+	  <h5><a>导航列表</a></h5>
+
+	  <div class="other">
+
+	  </div>
+      </div>
+      <div class="content">
+   <table id="list" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <colgroup>
+        <col width="80">
+        <col width="100">
+        <col >
+        <col width="80">
+        <col width="200">
+    </colgroup>
+    <thead>
+    <tr class="higlight_select">
+    <th class="line_l">排序</th>
+    <th class="line_l">ID</th>
+    <th class="line_l" style="text-align:left;text-indent:20px;">菜单名称</th>
+    <th class="line_l">状态</th>
+    <th class="line_l">管理操作</th>
+    </tr>
+   </thead>
+  <tbody>
+  
+%for n in range(0,len(page.li)):
+    %if page.li[n].parentid == 0:
+        <tr overstyle="on" id="list_9495">
+        <td><input type="text" size="3" value="${page.li[n].sort_order}" style="text-align:center;"/></td>
+        <td>${page.li[n].id}</td>
+        <td style="text-align:left;text-indent:20px;"><a class="url">${page.li[n].name}</a></td>
+        <td>&nbsp;</td>
+        <td><a data-href="http://kii.com/web/" data-title="" >添加子菜单</a>|<a data-href="/admin/record/${page.type}/${page.li[n].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[n].id}"  class="del">删除</a></td>
+        </tr>
+        <% id = page.li[n].id %>
+        %for i in range(0,len(page.li)):
+	        %if page.li[i].parentid == id:
+                <tr overstyle="on">
+                <td><input type="text" size="3" value="${page.li[i].sort_order}" style="text-align:center;"/></td>
+                <td>${page.li[i].id}</td>
+                <td style="text-align:left;text-indent:20px;">├─<a class="url">${page.li[i].name}</a></td>
+                <td>&nbsp;</td>
+                <td><a data-href="http://kii.com/web/" data-title="" >添加子菜单</a>|<a data-href="/admin/record/${page.type}/${page.li[i].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[i].id}"  class="del">删除</a></td>
+                </tr>
+                <% cid = page.li[i].id %>
+                %for c in range(0,len(page.li)):
+                    %if page.li[c].parentid == cid:
+                <tr overstyle="on">
+                <td><input type="text" size="3" value="${page.li[c].sort_order}" style="text-align:center;"/></td>
+                <td>${page.li[c].id}</td>
+                <td style="text-align:left;text-indent:20px;">│&nbsp;&nbsp;├─<a class="url">${page.li[c].name}</a></td>
+                <td>&nbsp;</td>
+                <td><a data-href="http://kii.com/web/" data-title="" >添加子菜单</a>|<a data-href="/admin/record/${page.type}/${page.li[c].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[c].id}"  class="del">删除</a></td>
+                </tr>
+                    %endif				
+                %endfor		   
+            %endif
+        %endfor
+    %endif
+%endfor
+
+  </tbody>
+</table>
+	  </div>
+   </div>
+
+   
+<div class="tab">
+
+      <div class="head">
+	  <h5><a>添加导航</a></h5>
+	  <h6 class="head-nav">
+	  
+      </h6>
+
+      </div>
+<form id="Fma">
+	  <h6 class="head-navs"><div>上级菜单：</div>|<div>
+	  <select id="parentid" name="parentid">
+	  <option value="0">默认</option>
+%for n in range(0,len(page.li)):
+    %if page.li[n].parentid == 0:
+	    <option value="${page.li[n].id}">${page.li[n].name}</option>
+        <% id = page.li[n].id %>
+        %for i in range(0,len(page.li)):
+	        %if page.li[i].parentid == id:
+	        <option value="${page.li[i].id}">├─${page.li[i].name}</option>
+                <% cid = page.li[i].id %>
+                %for c in range(0,len(page.li)):
+                    %if page.li[c].parentid == cid:
+                    <option value="${page.li[c].id}">│&nbsp;&nbsp;├─${page.li[c].name}</option>
+                    %endif				
+                %endfor		   
+            %endif
+        %endfor
+    %endif
+%endfor	  
+     </select>
+	  </div>
+	  </h6>
+	  <h6 class="head-navs"><div>是否新窗口打开：</div>|<div><input name="bank"  value="1" id="bank" type="radio"><label for="bank">是</label><input name="bank" value="0" id="bank" type="radio" checked="checked" ><label for="bank">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>是否显示：</div>|<div><input name="display"  checked="checked" value="1"  type="radio"><label for="display">是</label><input name="display" value="0"  type="radio"><label for="display">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>栏目名称：</div>|<div><input size="80%" name="name" id="name"/></div></h6>
+	  <h6 class="head-navs"><div>链接地址：</div>|<div><input size="80%" name="link" id="link"/></div></h6> 
+	   <h6 class="head-nav"><textarea id="content" autocomplete="off" name="content" style="width:100%;height:400px;visibility:hidden;display: block;"></textarea></h6>
+	  <input type="hidden" value="${page.type}" id="typec" name="typec"/>
+	  <h6 class="head-navs" style="text-align:center;"><input type="button" value="提交" id="bn"/></h6>
+</form>
+</div>
+%elif page.type == "nav":
+<div class="tab" >
+      <div class="head">
+	  <h5><a>导航列表</a></h5>
+
+	  <div class="other">
+
+	  </div>
+      </div>
+      <div class="content">
+   <table id="list" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <colgroup>
+        <col width="80">
+        <col width="100">
+        <col >
+        <col width="80">
+        <col width="200">
+    </colgroup>
+    <thead>
+    <tr class="higlight_select">
+    <th class="line_l">排序</th>
+    <th class="line_l">ID</th>
+    <th class="line_l" style="text-align:left;text-indent:20px;">导航名称</th>
+    <th class="line_l">状态</th>
+    <th class="line_l">管理操作</th>
+    </tr>
+   </thead>
+  <tbody>
+
+
+%for n in range(0,len(page.li)):
+    %if page.li[n].fid == 0:
+        <tr overstyle="on" id="list_9495">
+        <td><input type="text" size="3" value="${page.li[n].sort}" style="text-align:center;"/></td>
+        <td>${page.li[n].id}</td>
+        <td style="text-align:left;text-indent:20px;"><a class="url">${page.li[n].nav_name}<a></td>
+        <td>&nbsp;</td>
+        <td><a data-href="http://kii.com/web/" data-title="" >添加子菜单</a>|<a data-href="/admin/record/${page.type}/${page.li[n].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[n].id}"  class="del">删除</a></td>
+        </tr>
+        <% id = page.li[n].id %>
+        %for i in range(0,len(page.li)):
+	        %if page.li[i].fid == id:
+                <tr overstyle="on">
+                <td><input type="text" size="3" value="${page.li[i].sort}" style="text-align:center;"/></td>
+                <td>${page.li[i].id}</td>
+                <td style="text-align:left;text-indent:20px;">├─${page.li[i].nav_name}</td>
+                <td>&nbsp;</td>
+                <td><a data-href="http://kii.com/web/" data-title="" >添加子菜单</a>|<a data-href="/admin/record/${page.type}/${page.li[i].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[i].id}"  class="del">删除</a></td>
+                </tr>
+                <% cid = page.li[i].id %>
+                %for c in range(0,len(page.li)):
+                    %if page.li[c].fid == cid:
+                <tr overstyle="on">
+                <td><input type="text" size="3" value="${page.li[c].sort}" style="text-align:center;"/></td>
+                <td>${page.li[c].id}</td>
+                <td style="text-align:left;text-indent:20px;">│&nbsp;&nbsp;├─${page.li[c].nav_name}</td>
+                <td>&nbsp;</td>
+                <td><a data-href="" data-title="" >添加子菜单</a>|<a  data-href="/admin/record/${page.type}/${page.li[c].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[c].id}"  class="del">删除</a></td>
+                </tr>
+                    %endif				
+                %endfor		   
+            %endif
+        %endfor
+    %endif
+%endfor
+
+
+  </tbody>
+</table>
+	  </div>
+   </div>
+
+   
+<div class="tab">
+      <div class="head">
+	  <h5><a>添加导航</a></h5>
+	  <h6 class="head-nav">
+	  
+      </h6>
+
+      </div>
+<form id="Fma">	 
+	  <h6 class="head-navs"><div>上级菜单：</div>|<div>
+	  <select id="fid" name="fid">
+	  <option value="0">默认</option>
+%for n in range(0,len(page.li)):
+    %if page.li[n].fid == 0:
+	    <option value="${page.li[n].id}">${page.li[n].nav_name}</option>
+
+        <% id = page.li[n].id %>
+        %for i in range(0,len(page.li)):
+	        %if page.li[i].fid == id:
+			   <option value="${page.li[i].id}">${page.li[i].nav_name}</option>
+
+                <% cid = page.li[i].id %>
+                %for c in range(0,len(page.li)):
+                    %if page.li[c].fid == cid:
+					<option value="${page.li[c].id}">${page.li[c].nav_name}</option>
+                    %endif				
+                %endfor		   
+            %endif
+        %endfor
+    %endif
+%endfor
+	  </select>
+	  </div></h6>
+	  <h6 class="head-navs"><div>是否新窗口打开：</div>|<div><input name="bank"  value="1" id="bank" type="radio"><label for="bank">是</label><input name="bank" value="0" id="bank" type="radio" checked="checked" ><label for="bank">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>是否显示：</div>|<div><input name="display"  checked="checked" value="1"  type="radio"><label for="display">是</label><input name="display" value="0"  type="radio"><label for="display">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>栏目名称：</div>|<div><input size="80%" name="nav_name" id="nav_name"/></div></h6>
+	  <h6 class="head-navs"><div>链接地址：</div>|<div><input size="80%" name="link" id="link"/></div></h6> 	  
+      <h6 class="head-nav"><textarea id="content" autocomplete="off" name="content" style="width:100%;height:400px;visibility:hidden;display: block;"></textarea></h6>
+	  <input type="hidden" value="${page.type}" id="typec" name="typec"/>
+	  <h6 class="head-navs" style="text-align:center;"><input type="button" value="提交" id="bn"/></h6>
+</form>
+</div>
+
+
+%elif page.type == "menulist":
+<div class="tab" >
+      <div class="head">
+	  <h5><a>文章列表</a></h5>
+
+	  <div class="other">
+	    会员名：<input type="text"/>
+		状态：<select><option>默认</option><option>通过</option><option>未通过</option></select>
+	    开始时间：<input type="text" id="date-start"/>
+	    结束时间：<input type="text" id="date-end"/>
+		<button>确定</button>
+		<button>导出</button>
+	  </div>
+      </div>
+      <div class="content">
+      <table id="list" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <colgroup>
+        <col width="20">
+        <col width="200">
+        <col width="40">
+        <col width="30">
+        <col width="40">
+        <col width="40">
+
+        <col width="100">
+    </colgroup>
+      <thead>
+    <tr class="higlight_select">
+    <th class="line_l">ID</th>
+    <th class="line_l">标题</th>
+    <th class="line_l">所属栏目</th>
+    <th class="line_l">类型</th>
+    <th class="line_l">发布人</th>
+    <th class="line_l">添加时间</th>
+    <th class="line_l">管理员操作</th>
+  </tr>
+   </thead>
+  <tbody>    
+%for i in range(0,len(page.li)):
+      <tr overstyle="on">
+        <td>${page.li[i].id}</td>
+        <td style="text-align:left;"><a data-href="/info/${page.li[i].id}" data-title="${page.li[i].title}" class="url">${page.li[i].title}</a></td>
+        <td>${page.li[i].cat_id}</td>
+        <td>${page.li[i].cat_id}</td>
+        <td>${page.li[i].writer}</td>
+        <td>${page.datefmt(page.li[i].add_time)}</td>
+        <td><a date-url="/admin/deleter" data-title="" >关闭</a>|<a data-href="/admin/record/${page.type}/${page.li[i].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="info" data-id="${page.li[i].id}"  class="del">删除</a></td>
+      </tr>       
+%endfor
+  </tbody>
+  </table>
+<div class="pages">${page.pagebar}</div>
+	  </div>
+   </div>
+<div class="tab">
+   <div class="head">
+   <h5><a>添加文章</a></h5>
+   </div>
+<form id="Fma" method="post">
+   <h6 class="head-nav"></h6>
+   <h6 class="head-navs"><div>文章标题：</div>|<div><input type="text" size="80%" name="title"/></div></h6>
+   <h6 class="head-navs"><div>关键单词：</div>|<div><input type="text" size="80%" name="keyword"/></div></h6>
+   <h6 class="head-navs"><div>所属栏目：</div>|<div>
+	  <select id="parentid" name="parentid">
+	  <option value="0">默认</option>
+%for n in range(0,len(page.lt)):
+    %if page.lt[n].parent_id == 0:
+	    <option value="${page.lt[n].id}">${page.lt[n].cate_name}</option>
+
+        <% id = page.lt[n].id %>
+        %for i in range(0,len(page.lt)):
+	        %if page.lt[i].parent_id == id:
+			   <option value="${page.lt[i].id}">${page.lt[i].cate_name}</option>
+
+                <% cid = page.lt[i].id %>
+                %for c in range(0,len(page.lt)):
+                    %if page.lt[c].parent_id == cid:
+					<option value="${page.lt[c].id}">${page.lt[c].cate_name}</option>
+                    %endif				
+                %endfor		   
+            %endif
+        %endfor
+    %endif
+%endfor
+     </select>
+   
+   </h6>
+   <h6 class="head-navs"><div>图片上传：</div>|<div><input type="file" style="border: 1px solid #CCC;" size="80%" name="url" id="url"/></div></h6>
+   <h6 class="head-navs"><div>链接地址：</div>|<div><input type="text" size="80%" name="url"/></div></h6>
+  
+<h6 class="head-nav"><textarea id="content" name="content" style="width:100%;height:500px;overflow:hidden;display: block;"></textarea></h6>
+<input type="hidden" value="${page.type}" name="typec"/>
+<h6 class="head-navs" style="text-align:right;"><input type="button"  width="300" value="提交" id="bn"/></h6>
+</form>
+</div>
+%elif page.type == "category":
+
+<div class="tab" >
+      <div class="head">
+	  <h5><a>导航分类</a></h5>
+
+	  <div class="other">
+
+	  </div>
+      </div>
+      <div class="content">
+   <table id="list" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <colgroup>
+        <col width="80">
+        <col width="100">
+        <col >
+        <col width="80">
+        <col width="200">
+    </colgroup>
+    <thead>
+    <tr class="higlight_select">
+    <th class="line_l">排序</th>
+    <th class="line_l">ID</th>
+    <th class="line_l" style="text-align:left;text-indent:20px;">菜单名称</th>
+    <th class="line_l">状态</th>
+    <th class="line_l">管理操作</th>
+    </tr>
+   </thead>
+  <tbody>
+%for n in range(0,len(page.li)):
+    %if page.li[n].parent_id == 0:
+        <tr overstyle="on" id="list_9495">
+        <td><input type="text" size="3" value="${page.li[n].is_show}" style="text-align:center;"/></td>
+        <td>${page.li[n].id}</td>
+        <td style="text-align:left;text-indent:20px;"><a class="url">${page.li[n].cate_name}</a></td>
+        <td>&nbsp;</td>
+        <td><a data-href="http://kii.com/web/" data-title="" >添加子菜单</a>|<a data-href="/admin/record/${page.type}/${page.li[n].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[n].id}"  class="del">删除</a></td>
+        </tr>
+        <% id = page.li[n].id %>
+        %for i in range(0,len(page.li)):
+	        %if page.li[i].parent_id == id:
+                <tr overstyle="on">
+                <td><input type="text" size="3" value="${page.li[i].is_show}}" style="text-align:center;"/></td>
+                <td>${page.li[i].id}</td>
+                <td style="text-align:left;text-indent:20px;">├─${page.li[i].cate_name}</td>
+                <td>&nbsp;</td>
+                <td><a data-href="http://kii.com/web/" data-title="" >添加子菜单</a>|<a data-href="/admin/record/${page.type}/${page.li[i].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[i].id}"  class="del">删除</a></td>
+                </tr>
+                <% cid = page.li[i].id %>
+                %for c in range(0,len(page.li)):
+                    %if page.li[c].parent_id == cid:
+                <tr overstyle="on">
+                <td><input type="text" size="3" value="${page.li[c].sort_order}" style="text-align:center;"/></td>
+                <td>${page.li[c].id}</td>
+                <td style="text-align:left;text-indent:20px;">│&nbsp;&nbsp;├─${page.li[c].cate_name}}</td>
+                <td>&nbsp;</td>
+                <td><a data-href="http://kii.com/web/" data-title="" >添加子菜单</a>|<a data-href="/admin/record/${page.type}/${page.li[c].id}" class="updata">修改</a>|<a date-url="/admin/deleter" data-name="${page.type}" data-id="${page.li[c].id}"  class="del">删除</a></td>
+                </tr>
+                    %endif				
+                %endfor		   
+            %endif
+        %endfor
+    %endif
+%endfor
+  </tbody>
+</table>
+	  </div>
+   </div>
+
+   
+<div class="tab">
+
+      <div class="head">
+	  <h5><a>添加分类</a></h5>
+	  <h6 class="head-nav">
+	  
+      </h6>
+
+      </div>
+<form id="Fma">
+	  <h6 class="head-navs"><div>上级菜单：</div>|<div>
+	  <select id="parentid" name="parentid">
+	  <option value="0">默认</option>
+%for n in range(0,len(page.li)):
+    %if page.li[n].parent_id == 0:
+	    <option value="${page.li[n].id}">${page.li[n].cate_name}</option>
+
+        <% id = page.li[n].id %>
+        %for i in range(0,len(page.li)):
+	        %if page.li[i].parent_id == id:
+			   <option value="${page.li[i].id}">${page.li[i].cate_name}</option>
+
+                <% cid = page.li[i].id %>
+                %for c in range(0,len(page.li)):
+                    %if page.li[c].parent_id == cid:
+					<option value="${page.li[c].id}">${page.li[c].cate_name}</option>
+                    %endif				
+                %endfor		   
+            %endif
+        %endfor
+    %endif
+%endfor
+     </select>
+	  </div>
+	  </h6>
+	  <h6 class="head-navs"><div>是否新窗口打开：</div>|<div><input name="is_show"  value="1" id="bank" type="radio"><label for="bank">是</label><input name="bank" value="0" id="bank" type="radio" checked="checked" ><label for="bank">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>是否显示：</div>|<div><input name="display"  checked="checked" value="1"  type="radio"><label for="display">是</label><input name="display" value="0"  type="radio"><label for="display">否</label></div></h6>
+	  
+	  <h6 class="head-navs"><div>栏目名称：</div>|<div><input size="80%" name="name" id="name"/></div></h6>
+	  <h6 class="head-navs"><div>链接地址：</div>|<div><input size="80%" name="link" id="link"/></div></h6> 
+	   <h6 class="head-nav"><textarea id="content" autocomplete="off" name="content" style="width:100%;height:400px;visibility:hidden;display: block;"></textarea></h6>
+	  <input type="hidden" value="${page.type}" id="typec" name="typec"/>
+	  <h6 class="head-navs" style="text-align:center;"><input type="button" value="提交" id="bn"/></h6>
+</form>
+</div>
+%elif page.type == "setting":
+<!--引入CSS-->
+<link rel="stylesheet" type="text/css" href="/static/css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="/static/css/demo.css">
+<!--引入JS-->
+<script type="text/javascript" src="/static/js/webuploader.js"></script>
+<script type="text/javascript" src="/static/js/demo.js"></script>
+<div class="page-container" style="width:50%;">
+<div id="uploader" class="wu-example">
+    <div class="queueList">
+        <div id="dndArea" class="placeholder">
+            <div class="webuploader-container" id="filePicker"><div class="webuploader-pick">点击选择图片</div><div style="position: absolute; top: 0px; left: 448px; width: 168px; height: 44px; overflow: hidden; bottom: auto; right: auto;" id="rt_rt_1aa5in7kjvgvgsukq7cmv1v8h1"><input accept="image/*" multiple="multiple" class="webuploader-element-invisible" name="file" type="file"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"></label></div></div>
+            <p>或将照片拖到这里，单次最多可选300张</p>
+        </div>
+    <ul class="filelist"></ul></div>
+    <div class="statusBar" style="display:none;">
+        <div style="display: none;" class="progress">
+            <span class="text">0%</span>
+            <span style="width: 0%;" class="percentage"></span>
+        </div><div class="info">共0张（0B），已上传0张</div>
+        <div class="btns">
+            <div class="webuploader-container" id="filePicker2"><div class="webuploader-pick">继续添加</div><div style="position: absolute; top: 0px; left: 0px; width: 1px; height: 1px; overflow: hidden;" id="rt_rt_1aa5in7l51m4lp0m15np18de1bf36"><input accept="image/*" multiple="multiple" class="webuploader-element-invisible" name="file" type="file"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"></label></div></div><div class="uploadBtn state-pedding">开始上传</div>
+        </div>
+    </div>
+</div>
+
+</div>
+%elif page.type == "advert":
+<link type="text/css" rel="stylesheet" href="/static/css/datePicker.css">
+<script type="text/javascript" src="/static/js/datePicker.js"></script>
+<div class="tab">
+      <div class="head">
+	  <h5><a>广告管理</a></h5>
+	  <div class="other">
+
+	  </div>
+      </div>
+      <div class="content">
+   <table id="list" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <colgroup>
+        <col width="30">
+        <col width="100">
+		<col width="60">
+		<col width="60">
+        <col width="60">
+        <col width="120">
+    </colgroup>
+    <thead>
+    <tr class="higlight_select">
+    <th class="line_l">ID</th>
+    <th class="line_l">广告名称</th>
+    <th class="line_l">开始时间</th>
+    <th class="line_l">结束时间</th>
+    <th class="line_l">状态</th>
+    <th class="line_l">管理操作</th>
+    </tr>
+   </thead>
+  <tbody>
+%for i in range(0,len(page.li)):
+      <tr overstyle="on">
+        <td>${page.li[i].id}</td>
+        <td style="text-align:left;"><a data-href="/info/${page.li[i].id}" data-title="${page.li[i].title}" class="url">${page.li[i].title}</a></td>
+        <td>${page.datefmt(page.li[i].start_time)}</td>
+        <td>${page.datefmt(page.li[i].end_time)}</td>
+        <td>${page.li[i].ad_type}</td>
+        <td><a date-url="/admin/deleter" data-title="" >关闭</a>|<a data-href="/admin/record/${page.type}/${page.li[i].id}" class="updata">添加图片</a>|<a date-url="/admin/deleter" data-name="info" data-id="${page.li[i].id}"  class="del">删除</a></td>
+      </tr>       
+%endfor
+  </tbody>
+</table>
+</div>
+</div>
+<div class="tab">
+<form id="Fma">
+	  <h6 class="head-navs"><div>栏目名称：</div>|<div><input size="80%" name="title" id="title"/></div></h6>	  
+	  <h6 class="head-navs"><div>开始时间：</div>|<div><input size="80%" name="start_time" id="start_time" class="J_date"/></div></h6>	  
+	  <h6 class="head-navs"><div>结束时间：</div>|<div><input size="80%" name="end_time" id="end_time" class="J_date"/></div></h6>	  
+	  <h6 class="head-navs"><div>是否显示：</div>|<div><input name="display"  checked="checked" value="1"  type="radio"><label for="display">是</label><input name="display" value="0"  type="radio"><label for="display">否</label></div></h6>
+	  <h6 class="head-nav" style="display: none;"><textarea id="content" autocomplete="off" name="content" style="width:100%;height:1px;visibility:hidden;display: none;"></textarea></h6>
+	  <input type="hidden" value="${page.type}" id="typec" name="typec"/>
+	  <h6 class="head-navs" style="text-align:center;"><input type="button" value="提交" id="bn"/></h6>
+</form>
+</div>
+
+
+%endif
+
+
+</div>
+</div>
+</div>
+<div class="footer"></div>
+<script>
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create($("#content"), {
+		uploadJson : '/upload',
+        fileManagerJson : '/upload',
+        allowFileManager : true,
+		filterMode:false,
+		autoHeightMode:true/*,
+		afterCreate:function(){
+		    this.loadPlugin('autoheight');
+		}*/
+	});
+});
+
+BASE_URL='/static'
+var uploader = WebUploader.create({
+
+    // swf文件路径
+    swf: BASE_URL + '/js/Uploader.swf',
+
+    // 文件接收服务端。
+    server: '/upload',
+
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#picker',
+
+    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+    resize: false
+});
+uploader.on( 'fileQueued', function( file ) {
+    $list.append( '<div id="' + file.id + '" class="item">' +
+        '<h4 class="info">' + file.name + '</h4>' +
+        '<p class="state">等待上传...</p>' +
+    '</div>' );
+});
+
+
+</script>	
+<script data-main="/static/js/children" src="/static/js/require.js"></script>
+
+</body>
+</html>
